@@ -83,6 +83,7 @@ public class Hero extends LivingThing {
                 return judgment;
             case "3":
                 System.out.println(" ぼうぎょ");
+                System.out.printf("%sは　みをまもっている！\n", getName());
                 return "defense";
             case "4":
                 System.out.println(" どうぐ");

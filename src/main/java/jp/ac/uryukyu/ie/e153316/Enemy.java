@@ -34,28 +34,33 @@ public class Enemy extends LivingThing {
         }
     }
 
-    public void attack(LivingThing opponent){
+    public void attack(LivingThing opponent,boolean def){
         int damage = (int)(Math.random() * getAttack());
 
         if(getDead()){
             damage = 0;
         }
         if(!getDead()) {
-            if(damage == 0){
+            if (damage == 0) {
                 System.out.printf("%sの攻撃！,,,だが、%sは攻撃を回避した！\n", getName(), opponent.getName());
-            }
-            else {
+            } else {
                 double lucky = Math.random();
-                if (lucky <0.3){
-                    damage = damage*2;
+                if (lucky < 0.3) {
+                    damage = damage * 2;
+                    if (def == true) {  //heroが防御を選んだ時はダメージが半減する
+                        damage = damage / 2;
+                    }
                     System.out.printf("%sの攻撃！痛恨の一撃！！%sに%dのダメージを与えた！！\n", getName(), opponent.getName(), damage);
                 }
-                else{
+                else {
+                    if (def == true) {  //heroが防御を選んだ時はダメージが半減する
+                        damage = damage / 2;
+                    }
                     System.out.printf("%sの攻撃！%sに%dのダメージを与えた！！\n", getName(), opponent.getName(), damage);
                 }
+                opponent.wounded(damage);
             }
         }
-        opponent.wounded(damage);
     }
 
 }
