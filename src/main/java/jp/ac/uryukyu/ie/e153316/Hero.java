@@ -22,6 +22,7 @@ public class Hero extends LivingThing {
     }
 
     @Override
+    //ダメージをうけてHPがへるメソッド。HPが0以下なら死亡判定をだす
     public void wounded(int damage) {
         int hp = getHitPoint();
         boolean de = getDead();
@@ -35,6 +36,7 @@ public class Hero extends LivingThing {
         }
     }
 
+    //敵にダメージを与えるメソッド。40%の確率で2倍のダメージが与えられる。
     public void attack(LivingThing opponent){
         int damage = (int)(Math.random() * getAttack());
 
@@ -60,7 +62,7 @@ public class Hero extends LivingThing {
     }
 
     //選択肢を選ばせて、選択された処理を行うメソッド
-    public void select(LivingThing opponent) {
+    public String select(LivingThing opponent) {
         System.out.println(" 1. こうげき");
         System.out.println(" 2. にげる");
         System.out.println(" 3. ぼうぎょ");
@@ -74,20 +76,35 @@ public class Hero extends LivingThing {
             case "1":
                 System.out.println(" こうげき");
                 attack(opponent);
-                break;
+                return "attack";
             case "2":
                 System.out.println(" にげる");
-                break;
+                String judgment = escapejudgment();
+                return judgment;
             case "3":
                 System.out.println(" ぼうぎょ");
-                break;
+                return "defense";
             case "4":
                 System.out.println(" どうぐ");
-                break;
+                return "tool";
             default:
                 System.out.println(" 数字を選んで入力しよう。");
                 select(opponent); //選択肢以外が入力されたらやり直し
+                return "default";
         }
+    }
+
+    //にげるコマンドの判定メソッド。30%の確率で逃げられる。
+    public String escapejudgment(){
+        double odds = Math.random();
+            if (odds < 0.3){
+                System.out.printf("%sは にげだした！\n" , getName());
+                return "escape";
+            }
+            else{
+                System.out.printf("%sは にげだした！\nしかし まわりこまれてしまった！\n" , getName());
+                return "miss";
+            }
     }
 }
 
