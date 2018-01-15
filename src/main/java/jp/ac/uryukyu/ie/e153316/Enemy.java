@@ -33,7 +33,11 @@ public class Enemy extends LivingThing {
             System.out.printf("モンスター%sは倒れた。\n", na);
         }
     }
-
+    /**
+     * 敵に与えるダメージを生成するメソッド。40%の確率で2倍のダメージが与えられる。相手が防御している時は与えられるダメージが半分になるように設定した。
+     * @param opponent 敵、今回はenemy(スライム)
+     * @param def 相手が防御しているかどうかの判定。防御している時がtrue
+     */
     public void attack(LivingThing opponent,boolean def){
         int damage = (int)(Math.random() * getAttack());
 

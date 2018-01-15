@@ -36,7 +36,7 @@ public class Hero extends LivingThing {
         }
     }
 
-    //敵にダメージを与えるメソッド。40%の確率で2倍のダメージが与えられる。
+    //敵に与えるダメージを生成するメソッド。40%の確率で2倍のダメージが与えられる。
     public void attack(LivingThing opponent){
         int damage = (int)(Math.random() * getAttack());
 
@@ -70,29 +70,34 @@ public class Hero extends LivingThing {
 
         Scanner scan = new Scanner(System.in);
 
-        String str = scan.next();
+        String str = scan.next();  //例外処理　未実装
 
         switch (str) {
+            case "１":
             case "1":
-                System.out.println(" こうげき");
+                System.out.println(" <<こうげき>>");
                 attack(opponent);
-                return "attack";
+                break;
+            case "２":
             case "2":
-                System.out.println(" にげる");
+                System.out.println(" <<にげる>>");
                 String judgment = escapejudgment();
                 return judgment;
+            case "３":
             case "3":
-                System.out.println(" ぼうぎょ");
+                System.out.println(" <<ぼうぎょ>>");
                 System.out.printf("%sは　みをまもっている！\n", getName());
                 return "defense";
+            case"４":
             case "4":
-                System.out.println(" どうぐ");
-                return "tool";
+                System.out.println(" <<どうぐ>>");
+                String use = tools();
+                if (use == "tools"){break;}
             default:
                 System.out.println(" 数字を選んで入力しよう。");
                 select(opponent); //選択肢以外が入力されたらやり直し
-                return "default";
         }
+        return "";
     }
 
     //にげるコマンドの判定メソッド。30%の確率で逃げられる。
@@ -106,6 +111,43 @@ public class Hero extends LivingThing {
                 System.out.printf("%sは にげだした！\nしかし まわりこまれてしまった！\n" , getName());
                 return "miss";
             }
+    }
+
+    // 道具を使うメソッド。今回はやくそうを使用するとHPが全回復するように設定した。
+    int c = 3;
+    public String tools(){
+        int c2 = c;
+        //道具がない場合
+        if(c <= 0){
+            System.out.println("なにももっていない！");
+            return "miss";
+        }
+        //道具が残っている場合それを表示
+        else {
+            System.out.println(" 使う道具を選んで入力しよう。");
+            System.out.println("0. 戻る");
+            while (c2 > 0) {
+                System.out.printf("%d. やくそう\n", (c+1)-c2);
+                c2--;
+            }
+            Scanner scanner = new Scanner(System.in);
+            String str = scanner.next();
+            int i = Integer.parseInt(str);  //例外処理　未実装　数字以外が入力されるとエラーが起こる
+            if (c>=i && i>0) {
+                System.out.printf("%sは　やくそうをつかった\n",getName());
+                System.out.printf("%sの　キズが　かいふくした！\n",getName());
+                setHitPoint(getintHP());
+                c --;
+                return "tools";
+            }
+            else if(i==0){
+                return "miss";
+            }
+            else{
+                tools();
+            }
+        }
+        return "";
     }
 }
 

@@ -16,6 +16,7 @@ public class Main {
             String s = hero.select(enemy);
             if (s == "escape"){break;}
             else if(s == "defense"){defense = true;}
+            else{}
             enemy.attack(hero,defense);
         }
         System.out.println("戦闘終了");

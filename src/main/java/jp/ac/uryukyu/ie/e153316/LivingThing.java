@@ -5,10 +5,12 @@ public class LivingThing {
     private int hitPoint;
     private int attack;
     private boolean dead;
+    public int initHP;
 
     public LivingThing (String name, int hitPoint, int attack) {
         this.name = name;
         this.hitPoint = hitPoint;
+        initHP = hitPoint;
         this.attack = attack;
         dead = false;
         System.out.printf("%sのHPは%d。攻撃力は%dです。\n", name, hitPoint, attack);
@@ -63,6 +65,9 @@ public class LivingThing {
 
     public int getAttack() { return attack; }
 
+    public int getintHP(){
+        return initHP;
+    }
 
 }
 
