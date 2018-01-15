@@ -70,34 +70,41 @@ public class Hero extends LivingThing {
 
         Scanner scan = new Scanner(System.in);
 
-        String str = scan.next();  //例外処理　未実装
+        try { //ユーザーからの入力でエラーが発生しても止まらないように処理
+            String str = scan.next();
 
-        switch (str) {
-            case "１":
-            case "1":
-                System.out.println(" <<こうげき>>");
-                attack(opponent);
-                break;
-            case "２":
-            case "2":
-                System.out.println(" <<にげる>>");
-                String judgment = escapejudgment();
-                return judgment;
-            case "３":
-            case "3":
-                System.out.println(" <<ぼうぎょ>>");
-                System.out.printf("%sは　みをまもっている！\n", getName());
-                return "defense";
-            case"４":
-            case "4":
-                System.out.println(" <<どうぐ>>");
-                String use = tools();
-                if (use == "tools"){break;}
-            default:
-                System.out.println(" 数字を選んで入力しよう。");
-                select(opponent); //選択肢以外が入力されたらやり直し
+            switch (str) {
+                case "１":
+                case "1":
+                    System.out.println(" <<こうげき>>");
+                    attack(opponent);
+                    break;
+                case "２":
+                case "2":
+                    System.out.println(" <<にげる>>");
+                    String judgment = escapejudgment();
+                    return judgment; //Main側に"escape"を返したときはMainで処理がされる。
+                case "３":
+                case "3":
+                    System.out.println(" <<ぼうぎょ>>");
+                    System.out.printf("%sは　みをまもっている！\n", getName());
+                    return "defense";//Main側に"defense"が返され、Mainで処理がされる。
+                case "４":
+                case "4":
+                    System.out.println(" <<どうぐ>>");
+                    String use = tools();
+                    if (use == "tools") { //道具が使用されたときはbreakして相手のターン。使用されなければ行動を選択し直す
+                        break;
+                    }
+                default:
+                    System.out.println(" 数字を選んで入力しよう。");
+                    select(opponent); //選択肢以外が入力されたらやり直し
+            }
         }
-        return "";
+        catch (Exception e){ //
+            select(opponent);
+        }
+        return "";  //String型であるため、特に記述することはないがreturnする
     }
 
     //にげるコマンドの判定メソッド。30%の確率で逃げられる。
@@ -109,7 +116,7 @@ public class Hero extends LivingThing {
             }
             else{
                 System.out.printf("%sは にげだした！\nしかし まわりこまれてしまった！\n" , getName());
-                return "miss";
+                return "";//String型であるため、特に記述することはないがreturnする
             }
     }
 
@@ -120,34 +127,37 @@ public class Hero extends LivingThing {
         //道具がない場合
         if(c <= 0){
             System.out.println("なにももっていない！");
-            return "miss";
+            return "";//String型であるため、特に記述することはないがreturnする
         }
         //道具が残っている場合それを表示
         else {
-            System.out.println(" 使う道具を選んで入力しよう。");
+            System.out.println(" 使う道具の数字を選んで入力しよう。");
             System.out.println("0. 戻る");
             while (c2 > 0) {
                 System.out.printf("%d. やくそう\n", (c+1)-c2);
                 c2--;
             }
-            Scanner scanner = new Scanner(System.in);
-            String str = scanner.next();
-            int i = Integer.parseInt(str);  //例外処理　未実装　数字以外が入力されるとエラーが起こる
-            if (c>=i && i>0) {
-                System.out.printf("%sは　やくそうをつかった\n",getName());
-                System.out.printf("%sの　キズが　かいふくした！\n",getName());
-                setHitPoint(getintHP());
-                c --;
-                return "tools";
+            try {  //ユーザーからの入力でエラーが発生しても止まらないように処理
+                Scanner scanner = new Scanner(System.in);
+                String str = scanner.next();
+                int i = Integer.parseInt(str);
+                if (c >= i && i > 0) {
+                    System.out.printf("%sは　やくそうをつかった\n", getName());
+                    System.out.printf("%sの　キズが　かいふくした！\n", getName());
+                    setHitPoint(getintHP());
+                    c--;
+                    return "tools";
+                } else if (i == 0) {
+                    return "";//String型であるため、特に記述することはないがreturnする
+                } else {
+                    tools();
+                }
             }
-            else if(i==0){
-                return "miss";
-            }
-            else{
+            catch (Exception e){
                 tools();
             }
         }
-        return "";
+        return "";//String型であるため、特に記述することはないがreturnする
     }
 }
 
