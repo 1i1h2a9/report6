@@ -45,10 +45,6 @@ public class LivingThing {
         }
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
-
     public int getHitPoint(){ return hitPoint; }
 
     public void setHitPoint(int hitPoint){

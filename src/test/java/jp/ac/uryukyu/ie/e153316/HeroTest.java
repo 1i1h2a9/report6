@@ -2,8 +2,6 @@ package jp.ac.uryukyu.ie.e153316;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.Scanner;
 import java.io.ByteArrayInputStream;
 
 
@@ -29,7 +27,6 @@ class HeroTest {
         System.setIn(in);
         int initHP = 10;
         Hero hero = new Hero("テスト勇者", initHP, 5);
-        Enemy enemy = new Enemy("テストスライム",6, 3);
         hero.wounded(4);
         assertEquals (6, hero.getHitPoint()); //4ダメージうけたのでHPが6になっているか確認する
         hero.tools();
