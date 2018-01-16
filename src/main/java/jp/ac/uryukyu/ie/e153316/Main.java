@@ -2,8 +2,9 @@ package jp.ac.uryukyu.ie.e153316;
 
 public class Main {
     public static void main(String[] args){
-        Hero hero = new Hero("勇者", 20, 5);
-        Enemy enemy = new Enemy("スライム", 12, 3);
+        EnemySelect select = new EnemySelect();
+        Hero hero = new Hero("勇者", 150, 10);
+        Enemy enemy = new Enemy(select.getName(), select.getHP(), select.getAttack());
         boolean defense;
 
         System.out.printf("%s vs. %s\n", hero.getName(), enemy.getName());
@@ -13,6 +14,7 @@ public class Main {
             turn++;
             defense = false;
             System.out.printf("%dターン目開始！\n", turn);
+            System.out.printf("%sのHP = %d\n",hero.getName(),hero.getHitPoint());
             String s = hero.select(enemy);
             if (s == "escape"){break;}
             else if(s == "defense"){defense = true;}

@@ -17,31 +17,23 @@ public class Hero extends LivingThing {
      * @param maximumHP ヒーローのHP
      * @param attack ヒーローの攻撃力
      */
-    public Hero (String name, int maximumHP, int attack) {
-        super(name,maximumHP,attack);
-    }
+    public Hero (String name, int maximumHP, int attack) { super(name,maximumHP,attack); }
 
     @Override
     //敵に与えるダメージを生成するメソッド。40%の確率で2倍のダメージが与えられる。
     public void attack(LivingThing opponent){
         int damage = (int)(Math.random() * getAttack());
 
-        if(getDead()){
-            damage = 0;
-        }
-        if(!getDead()) {
-            if(damage == 0){
-                System.out.printf("%sの攻撃！,,,だが、%sは攻撃を回避した！\n", getName(), opponent.getName());
-            }
+        if(getDead()){ damage = 0; }
+        else {
+            if(damage == 0){ System.out.printf("%sの攻撃！,,,だが、%sは攻撃を回避した！\n", getName(), opponent.getName()); }
             else {
                 double lucky = Math.random();
-                if (lucky <0.4){
+                if (lucky < 0.4){
                     damage = damage*2;
                     System.out.printf("%sの攻撃！会心の一撃！！%sに%dのダメージを与えた！！\n", getName(), opponent.getName(), damage);
                 }
-                else{
-                    System.out.printf("%sの攻撃！%sに%dのダメージを与えた！！\n", getName(), opponent.getName(), damage);
-                }
+                else{ System.out.printf("%sの攻撃！%sに%dのダメージを与えた！！\n", getName(), opponent.getName(), damage); }
             }
         }
         opponent.wounded(damage);
@@ -87,9 +79,7 @@ public class Hero extends LivingThing {
                     select(opponent); //選択肢以外が入力されたらやり直し
             }
         }
-        catch (Exception e){ //
-            select(opponent);
-        }
+        catch (Exception e){select(opponent);} //入力で例外が発生した場合は再びselectメソッドを呼び出し
         return "";  //String型であるため、特に記述することはないがreturnする
     }
 
@@ -106,22 +96,23 @@ public class Hero extends LivingThing {
             }
     }
 
-    // 道具を使うメソッド。今回はやくそうを使用するとHPが全回復するように設定した。
-    int c = 3;
+    /** 道具を使うメソッド。
+     * 今回はやくそうを3つ用意した。
+     * やくそうを使用するとHPが全回復するように設定した。
+     */
+    int c = 3; //残りのやくそうの個数
     public String tools(){
-        int c2 = c;
         //道具がない場合
         if(c <= 0){
             System.out.println("なにももっていない！");
             return "";//String型であるため、特に記述することはないがreturnする
         }
-        //道具が残っている場合それを表示
+        //道具が残っている場合それを表示し、ユーザーからの入力を待つ
         else {
             System.out.println(" 使う道具の数字を選んで入力しよう。");
             System.out.println("0. 戻る");
-            while (c2 > 0) {
-                System.out.printf("%d. やくそう\n", (c+1)-c2);
-                c2--;
+            for(int n=1;n<=c;n++) {
+                System.out.printf("%d. やくそう\n",n);
             }
             try {  //ユーザーからの入力でエラーが発生しても止まらないように処理
                 Scanner scanner = new Scanner(System.in);
@@ -133,15 +124,11 @@ public class Hero extends LivingThing {
                     setHitPoint(getinitHP());
                     c--;
                     return "tools";
-                } else if (i == 0) {
-                    return "";//String型であるため、特に記述することはないがreturnする
-                } else {
-                    tools();
                 }
+                else if (i == 0) { return "";}  //String型であるため、特に記述することはないがreturnする
+                else { tools(); }
             }
-            catch (Exception e){
-                tools();
-            }
+            catch (Exception e){ tools(); }
         }
         return "";//String型であるため、特に記述することはないがreturnする
     }

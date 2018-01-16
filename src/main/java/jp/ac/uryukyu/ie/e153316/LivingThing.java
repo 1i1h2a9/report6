@@ -24,6 +24,7 @@ public class LivingThing {
         return name;
     }
 
+    //敵に与えるダメージを生成するメソッド。
     public void attack(LivingThing opponent){
         String name = opponent.getName();
         int damage = (int)(Math.random() * attack);
