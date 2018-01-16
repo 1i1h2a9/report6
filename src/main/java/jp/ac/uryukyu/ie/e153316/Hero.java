@@ -22,20 +22,6 @@ public class Hero extends LivingThing {
     }
 
     @Override
-    //ダメージをうけてHPがへるメソッド。HPが0以下なら死亡判定をだす
-    public void wounded(int damage) {
-        int hp = getHitPoint();
-        boolean de = getDead();
-        String na = getName();
-        hp -= damage;
-        setHitPoint(hp);
-        if (hp < 0) {
-            de = true;
-            setDead(de);
-            System.out.printf("勇者%sは道半ばで力尽きてしまった。\n", na);
-        }
-    }
-
     //敵に与えるダメージを生成するメソッド。40%の確率で2倍のダメージが与えられる。
     public void attack(LivingThing opponent){
         int damage = (int)(Math.random() * getAttack());
@@ -144,7 +130,7 @@ public class Hero extends LivingThing {
                 if (c >= i && i > 0) {
                     System.out.printf("%sは　やくそうをつかった\n", getName());
                     System.out.printf("%sの　キズが　かいふくした！\n", getName());
-                    setHitPoint(getintHP());
+                    setHitPoint(getinitHP());
                     c--;
                     return "tools";
                 } else if (i == 0) {
