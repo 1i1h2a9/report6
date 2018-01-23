@@ -1,12 +1,16 @@
 package jp.ac.uryukyu.ie.e153316;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayInputStream;
 
 
 
 class HeroTest {
+    @Test
+    void tools() {
+    }
+
     @Test
     // heroが死んだ状態でenemyを攻撃できないかどうか確認する
     public void testattack() {
